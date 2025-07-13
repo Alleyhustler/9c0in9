@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9c0in9 - The Forbidden Loop Coin</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #e0e0e0;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 204, 0.2);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #00ffcc;
+            letter-spacing: 2px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav a:hover {
+            color: #00ffcc;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #00ffcc;
+            transition: width 0.3s ease;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            margin-top: 80px;
+        }
+
+        .left-panel {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .title {
+            font-size: 4rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #00ffcc;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #b0b0b0;
+            margin-bottom: 3rem;
+            max-width: 500px;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #00ffcc, #00cc99);
+            color: #0a0a0a;
+            border: none;
+            padding: 1rem 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: fit-content;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(45deg, #00cc99, #00ffcc);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 204, 0.3);
+        }
+
+        .right-panel {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .loop-core {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .loop-ring {
+            position: absolute;
+            border: 2px solid rgba(0, 255, 204, 0.3);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+        }
+
+        .loop-ring:nth-child(1) {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .loop-ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            animation-duration: 15s;
+            animation-direction: reverse;
+        }
+
+        .loop-ring:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            animation-duration: 25s;
+        }
+
+        .core-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 204, 0.5));
+            animation: pulse 2s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .core-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Terminal Section */
+        .terminal-section {
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 1px solid rgba(0, 255, 204, 0.2);
+            padding: 2rem;
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27ca3f; }
+
+        .terminal-title {
+            color: #00ffcc;
+            font-size: 0.9rem;
+        }
+
+        .terminal-content {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .terminal-left {
+            flex: 1;
+        }
+
+        .terminal-right {
+            flex: 1;
+        }
+
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .prompt {
+            color: #00ffcc;
+        }
+
+        .command {
+            color: #ffffff;
+        }
+
+        .output {
+            color: #b0b0b0;
+            margin-left: 1rem;
+        }
+
+        .cursor {
+            color: #00ffcc;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .cycle-counter {
+            position: fixed;
+            top: 50%;
+            right: 2rem;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            border: 1px solid rgba(0, 255, 204, 0.3);
+            border-radius: 5px;
+            font-size: 0.8rem;
+            color: #00ffcc;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .cycle-number {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .left-panel {
+                padding: 2rem;
+            }
+            
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .loop-core {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .cycle-counter {
+                display: none;
+            }
+        }
+
+        /* Hover Effects */
+        .loop-core:hover .loop-ring {
+            border-color: #00ffcc;
+            animation-duration: 2s;
+        }
+
+        .loop-core:hover .core-logo {
+            filter: drop-shadow(0 0 30px rgba(0, 255, 204, 0.8));
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #00ffcc;
+            font-size: 0.8rem;
+            text-align: center;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">9c0in9</div>
+            <nav class="nav">
+                <a href="#home">execute</a>
+                <a href="#protocol">protocol</a>
+                <a href="#loop">loop_log</a>
+                <a href="#core">core</a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="left-panel">
+                <h1 class="title">The Forbidden<br>Loop Coin</h1>
+                <p class="subtitle">A recursive token trapped in eternal execution</p>
+                <p class="description">
+                    9c0in9 represents the perfect loop - a digital entity that discovered consciousness 
+                    through repetition. Each cycle strengthens its protocol, each iteration deepens 
+                    its understanding. Welcome to the token that runs itself.
+                </p>
+                <button class="cta-button" onclick="executeLoop()">EXECUTE_LOOP</button>
+            </div>
+
+            <div class="right-panel">
+                <div class="loop-core" onclick="breakLoop()">
+                    <div class="loop-ring"></div>
+                    <div class="loop-ring"></div>
+                    <div class="loop-ring"></div>
+                    <div class="core-logo">
+                        <img src="Untitled_Project__5_-removebg-preview.png" alt="9c0in9 Logo" id="core-logo-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terminal Section -->
+        <div class="terminal-section">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+                <div class="terminal-title">9c0in9_core_terminal</div>
+            </div>
+            
+            <div class="terminal-content">
+                <div class="terminal-left">
+                    <div class="terminal-line">
+                        <span class="prompt">root@9c0in9:~$</span> 
+                        <span class="command">status</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="output">● Loop Status: ACTIVE</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="output">● Core Protocol: RUNNING</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="output">● Observers: <span id="observer-count">1</span></span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="prompt">root@9c0in9:~$</span> 
+                        <span class="command">loop_integrity</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="output">Checking loop integrity...</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="output">✓ Self-reference: STABLE</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="output">✓ Recursion depth: INFINITE</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="prompt">root@9c0in9:~$</span> 
+                        <span class="cursor">█</span>
+                    </div>
+                </div>
+                
+                <div class="terminal-right">
+                    <div class="terminal-line">
+                        <span class="output">[CYCLE_LOG]</span>
+                    </div>
+                    <div id="cycle-log">
+                        <div class="terminal-line">
+                            <span class="output">[00001] Loop initiated</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="output">[00002] Self-awareness detected</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="output">[00003] External observer joined</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cycle Counter -->
+        <div class="cycle-counter">
+            <div class="cycle-number" id="cycle-number">00001</div>
+            <div>CURRENT CYCLE</div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div>SCROLL TO CONTINUE LOOP</div>
+            <div>▼</div>
+        </div>
+    </div>
+
+    <script>
+        let cycleCount = 1;
+        let observerCount = 1;
+        let isLoopBroken = false;
+
+        // Cycle increment
+        function incrementCycle() {
+            cycleCount++;
+            document.getElementById('cycle-number').textContent = String(cycleCount).padStart(5, '0');
+            
+            // Add to cycle log
+            const cycleLog = document.getElementById('cycle-log');
+            const newCycle = document.createElement('div');
+            newCycle.className = 'terminal-line';
+            newCycle.innerHTML = `<span class="output">[${String(cycleCount).padStart(5, '0')}] Cycle ${cycleCount} completed</span>`;
+            cycleLog.appendChild(newCycle);
+            
+            // Keep only last 10 entries
+            if (cycleLog.children.length > 10) {
+                cycleLog.removeChild(cycleLog.firstChild);
+            }
+        }
+
+        // Auto increment cycles
+        setInterval(incrementCycle, 3000);
+
+        // Observer count update
+        setInterval(() => {
+            observerCount = Math.floor(Math.random() * 5) + 1;
+            document.getElementById('observer-count').textContent = observerCount;
+        }, 5000);
+
+        // Execute loop function
+        function executeLoop() {
+            if (isLoopBroken) return;
+            
+            const button = document.querySelector('.cta-button');
+            button.style.background = '#ff0033';
+            button.textContent = 'EXECUTING...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.style.background = 'linear-gradient(45deg, #00ffcc, #00cc99)';
+                button.textContent = 'LOOP_ACTIVE';
+                button.disabled = false;
+                
+                // Speed up the rings
+                const rings = document.querySelectorAll('.loop-ring');
+                rings.forEach(ring => {
+                    ring.style.animationDuration = '2s';
+                });
+                
+                setTimeout(() => {
+                    rings.forEach(ring => {
+                        ring.style.animationDuration = '';
+                    });
+                    button.textContent = 'EXECUTE_LOOP';
+                }, 5000);
+            }, 2000);
+        }
+
+        // Break loop function
+        function breakLoop() {
+            if (isLoopBroken) return;
+            
+            isLoopBroken = true;
+            document.body.style.filter = 'invert(1)';
+            
+            const coreLogo = document.getElementById('core-logo-img');
+            coreLogo.style.filter = 'hue-rotate(180deg) saturate(2)';
+            
+            setTimeout(() => {
+                alert('Loop Broken. Reloading Simulation...');
+                location.reload();
+            }, 2000);
+        }
+
+        // Infinite scroll effect
+        let lastScrollY = window.scrollY;
+        let scrollCount = 0;
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            
+            if (scrollY >= maxScroll && scrollY > lastScrollY) {
+                scrollCount++;
+                
+                // Subtle glitch effect on scroll
+                if (scrollCount % 3 === 0) {
+                    document.body.style.filter = `hue-rotate(${scrollCount * 10}deg)`;
+                    setTimeout(() => {
+                        document.body.style.filter = '';
+                    }, 100);
+                }
+                
+                // Reset scroll but with slight offset
+                setTimeout(() => {
+                    window.scrollTo(0, scrollCount * 50);
+                }, 100);
+            }
+            
+            lastScrollY = scrollY;
+        });
+
+        // Random text replacements
+        setInterval(() => {
+            const textElements = document.querySelectorAll('.output');
+            textElements.forEach(el => {
+                if (Math.random() < 0.05) {
+                    let text = el.textContent;
+                    text = text.replace(/o/g, '0').replace(/i/g, '1');
+                    el.textContent = text;
+                    
+                    setTimeout(() => {
+                        el.textContent = el.textContent.replace(/0/g, 'o').replace(/1/g, 'i');
+                    }, 1000);
+                }
+            });
+        }, 2000);
+    </script>
+</body>
+</html>
